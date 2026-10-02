@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hi</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+
+        #triggerBtn {
+            width: 80px;
+            height: 80px;
+            background-image: url('hi.png');
+            background-size: cover;
+            background-position: center;
+            border: none;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        #scareImg {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90vw;
+            height: 90vh;
+            object-fit: contain;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="triggerBtn"></button>
+    <img id="scareImg" src="scare.png" alt="Scare">
+    <audio id="screamAudio" src="scream.mp3" loop></audio>
+
+    <script>
+        const btn = document.getElementById('triggerBtn');
+        const img = document.getElementById('scareImg');
+        const audio = document.getElementById('screamAudio');
+
+        btn.addEventListener('click', () => {
+            // Request Fullscreen
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.webkitRequestFullscreen) { /* Safari */
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) { /* IE11 */
+                document.documentElement.msRequestFullscreen();
+            }
+
+            // Vibrate for 3000ms (3 seconds)
+            if (navigator.vibrate) {
+                navigator.vibrate(3000);
+            }
+
+            // Play Audio at Max Volume
+            audio.volume = 1.0;
+            audio.play().catch(err => console.log("Audio playback blocked or failed:", err));
+
+            // Show Scare Image & Hide Button
+            img.style.display = 'block';
+            btn.style.display = 'none';
+        });
+    </script>
+
+</body>
+</html>
